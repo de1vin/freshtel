@@ -491,7 +491,8 @@
             Array.from(filterForm.elements).forEach(element => {
                 data[element.name] = element.value;
             });
-            axios.get(action)
+            console.log(data);
+            axios.get(action, {params: data})
                 .then(function (response) {
                     let parser = new DOMParser;
                     let doc = parser.parseFromString(response.data, 'text/html');
