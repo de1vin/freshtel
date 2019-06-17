@@ -506,7 +506,7 @@
                     let doc = parser.parseFromString(response.data, 'text/html');
                     let newContent = doc.querySelector('.data-table-content');
                     if (newContent) {
-                        contentTable.innerHTML = newContent.innerHTML
+                        contentTable.innerHTML = newContent.innerHTML;
                         updateHeader();
                     }
                 }).catch(function (error) {
