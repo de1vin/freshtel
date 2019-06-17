@@ -8,25 +8,29 @@
             position: sticky;
             top: 0;
         }
+        .data-table-form input {
+            width: calc(100% - 10px);
+            min-width: auto;
+        }
         .data-table-content{
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
         }
         .data-table-content td {
-            padding: 5px 0;
+            padding: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
         }
         .data-table-header {
             width: 100%;
             background: #f0f0f0;
-            border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
             border-collapse: collapse;
-            table-layout: fixed;
             margin-bottom: 10px;
         }
         .data-table-header th {
-            padding: 5px 0;
+            padding: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
@@ -35,7 +39,7 @@
     <form action="table-data.html" class="data-table-form">
     <table class="data-table-header">
         <tr>
-            <th style="width: 70%">column 1</th>
+            <th >column 1</th>
             <th>column 2</th>
             <th>column 3</th>
         </tr>
@@ -48,7 +52,7 @@
     </form>
     <table class="data-table-content">
         <tr>
-            <td style="width: 70%">content1</td>
+            <td >content1</td>
             <td>some content</td>
             <td>last column content</td>
         </tr>
@@ -485,6 +489,10 @@
             element.addEventListener('change', fetchData, false);
         });
 
+        window.addEventListener('resize', updateHeader);
+
+        updateHeader();
+
         function fetchData() {
             const action = filterForm.getAttribute('action');
             const data = {};
@@ -499,6 +507,7 @@
                     let newContent = doc.querySelector('.data-table-content');
                     if (newContent) {
                         contentTable.innerHTML = newContent.innerHTML
+                        updateHeader();
                     }
                 }).catch(function (error) {
                     console.log(error);
@@ -506,6 +515,21 @@
                 .finally(function () {
                     console.log('finish');
                 });
+        }
+
+        function updateHeader() {
+            const firstHeaderRow = document.querySelectorAll('table.data-table-header tr:first-child th');
+            const firstDataRow = document.querySelectorAll('table.data-table-content tr:first-child td');
+
+            if (firstHeaderRow.length !== firstDataRow.length) {
+                console.log(firstHeaderRow.length, firstDataRow.length, 'Mismatch number of columns');
+                return;
+            }
+
+            for (let i = 0; i < firstDataRow.length; i++) {
+                let columnWidth = firstDataRow[i].clientWidth;
+                firstHeaderRow[i].style.width = columnWidth + 'px';
+            }
         }
     });
 </script>
