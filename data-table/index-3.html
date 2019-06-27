@@ -4,114 +4,77 @@
     <meta charset="UTF-8">
     <title>Table</title>
     <style>
+        .data-table-form {
+            position: sticky;
+            top: 0;
+        }
         .data-table-form input {
             width: calc(100% - 10px);
             min-width: auto;
         }
-        .data-table {
+        .data-table-content{
             width: 100%;
             border-collapse: collapse;
         }
-        .data-table td {
+        .data-table-content td {
             padding: 5px;
             border: 1px solid #ccc;
             box-sizing: border-box;
         }
-        .data-table thead {
-            height: 100px;
-        }
-        .data-table thead td {
+        .data-table-content thead {
             background: #fff;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            box-shadow: 1px 1px 0 #ccc;
-        }
-        .data-table-container {
-            position: relative;
         }
     </style>
 </head>
 <body>
-<div class="data-table-container">
-    <form action="table-data.html" class="data-table-form">
-    <table class="data-table">
+<form action="table-data-1.html" class="data-table-form">
+    <div class="data-table-container">
+    <table class="data-table-content">
         <thead>
         <tr>
             <td colspan="16">string</td>
         </tr>
         <tr>
-            <td>
-                column 1 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 2<br>
-                <input type="text" name="input_2" placeholder="filter">
-            </td>
-            <td>
-                column 3 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 4 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 5 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 6 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 7 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 8 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 9 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 10 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 11 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 12 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 13 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 14 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 15 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
-            <td>
-                column 16 <br>
-                <input type="text" name="input_1" placeholder="filter">
-            </td>
+            <td>column 1</td>
+            <td>column 2</td>
+            <td>column 3</td>
+            <td>column 4</td>
+            <td>column 5</td>
+            <td>column 6</td>
+            <td>column 7</td>
+            <td>column 8</td>
+            <td>column 9</td>
+            <td>column 10</td>
+            <td>column 11</td>
+            <td>column 12</td>
+            <td>column 13</td>
+            <td>column 14</td>
+            <td>column 15</td>
+            <td>column 16</td>
         </tr>
-        </thead>
-
-        <tbody>
+        <tr>
+            <td><input type="text" name="input_1" placeholder="filter"></td>
+            <td><input type="text" name="input_2" placeholder="filter"></td>
+            <td><input type="text" name="input_3" placeholder="filter"></td>
+            <td><input type="text" name="input_4" placeholder="filter"></td>
+            <td><input type="text" name="input_5" placeholder="filter"></td>
+            <td><input type="text" name="input_6" placeholder="filter"></td>
+            <td><input type="text" name="input_7" placeholder="filter"></td>
+            <td><input type="text" name="input_8" placeholder="filter"></td>
+            <td><input type="text" name="input_9" placeholder="filter"></td>
+            <td><input type="text" name="input_10" placeholder="filter"></td>
+            <td><input type="text" name="input_11" placeholder="filter"></td>
+            <td><input type="text" name="input_12" placeholder="filter"></td>
+            <td><input type="text" name="input_13" placeholder="filter"></td>
+            <td><input type="text" name="input_14" placeholder="filter"></td>
+            <td><input type="text" name="input_15" placeholder="filter"></td>
+            <td><input type="text" name="input_16" placeholder="filter"></td>
+        </tr>
         <tr>
             <td colspan="16">string</td>
         </tr>
+        </thead>
+        <tbody>
         <tr>
             <td>content 1</td>
             <td>content 1</td>
@@ -657,14 +620,17 @@
         </tr>
         </tbody>
     </table>
-    </form>
-</div>
+    </div>
+</form>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://unpkg.com/sticky-table-headers"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function(){
         const filterForm = document.querySelector('.data-table-form');
-        const contentTable = document.querySelector('.data-table tbody');
+        const contentTable = document.querySelector('.data-table-content tbody');
+        $('table').stickyTableHeaders();
 
         Array.from(filterForm.elements).forEach(element => {
             element.addEventListener('change', fetchData, false);
@@ -680,9 +646,10 @@
                 .then(function (response) {
                     let parser = new DOMParser;
                     let doc = parser.parseFromString(response.data, 'text/html');
-                    let newContent = doc.querySelector('.data-table tbody');
+                    let newContent = doc.querySelector('.data-table-content tbody');
                     if (newContent) {
                         contentTable.innerHTML = newContent.innerHTML;
+                        $(window).trigger('resize.stickyTableHeaders');
                     }
                 }).catch(function (error) {
                     console.log(error);
