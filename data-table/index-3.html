@@ -636,6 +636,10 @@
             element.addEventListener('change', fetchData, false);
         });
 
+        window.addEventListener('resize', function() {
+            $(window).trigger('resize.stickyTableHeaders');
+        });
+
         function fetchData() {
             const action = filterForm.getAttribute('action');
             const data = {};
